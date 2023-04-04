@@ -8,6 +8,9 @@ class Game(models.Model):
     Goals = models.SmallIntegerField(default=0, verbose_name="Наши голы")
     Opponent_goals = models.SmallIntegerField(default=0, verbose_name="Голы Оппонента")
 
+    def __str__(self) -> str:
+        return f"ИграПротив {self.Opponent}"
+
 
 class Player(models.Model):
     Firstname = models.CharField(max_length=255, verbose_name='Имя')
@@ -18,6 +21,9 @@ class Player(models.Model):
     isActive = models.BooleanField(default=True, verbose_name="Активный")
     PlayNumber = models.SmallIntegerField(null=True, blank=True, default=-1, verbose_name="Игровой Номер игрока")
     Team = models.ForeignKey('Team', on_delete=models.RESTRICT)
+
+    def __str__(self) -> str:
+        return self.Firstname
 
 
 class Team(models.Model):
@@ -33,11 +39,16 @@ class Tourney(models.Model):
 class Opponent(models.Model):
     Name = models.CharField(max_length=255, verbose_name='Название')
 
+    def __str__(self) -> str:
+        return self.Name
+
 
 class Result(models.Model):
     Game =models.ForeignKey('Game', on_delete=models.RESTRICT, verbose_name="Игры")
     Player =models.ForeignKey('Player', on_delete=models.RESTRICT, verbose_name="Игрок")
     Goals = models.SmallIntegerField(verbose_name="Колчество голов")
+
+
 
 class Card(models.Model):
     Yellow = 'Y'
